@@ -9,8 +9,15 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
 configurations {
+	developmentOnly
+	runtimeClasspath {
+		extendsFrom configurations.developmentOnly
+	}
 	compileOnly {
 		extendsFrom annotationProcessor
+	}
+	all {
+		exclude module:"spring-boot-starter-logging"
 	}
 }
 
@@ -46,4 +53,8 @@ dependencyManagement {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+tasks.named('jar') {
+	enabled = false
 }
