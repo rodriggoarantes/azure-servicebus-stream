@@ -7,21 +7,21 @@ spring:
         connection-string: Endpoint=sb://next-stream-ra.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=kfDKtdkf9BCCnWbC2aNGuFxXSOWlw+xbmnZg9QTSzUc=
     stream:
       bindings:
-        consumidor-in-0:
+        consumidorFila-in-0:
           destination: next-lab-rendafixa-queue
-        produtor-out-0:
+        produtorFila-out-0:
           destination: next-lab-rendafixa-queue
       servicebus:
         bindings:
-          consumidor-in-0:
+          consumidorFila-in-0:
             consumer:
               auto-complete: false
               entity-type: queue
-          produtor-out-0:
+          produtorFila-out-0:
             producer:
               entity-type: queue
       function:
-        definition: consumidor;produtor;
+        definition: consumidorFila;produtorFila;
       poller:
         fixed-delay: 1000
         initial-delay: 0
