@@ -2,26 +2,34 @@ server.port: ${PORT:9090}
 
 spring:
   cloud:
-    azure:
-      servicebus:
-        connection-string: Endpoint=sb://next-stream-ra.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=kfDKtdkf9BCCnWbC2aNGuFxXSOWlw+xbmnZg9QTSzUc=
     stream:
+      function:
+        definition: consumidorFila;produtorFila;
       bindings:
         consumidorFila-in-0:
+          binder: servicebus-1
           destination: next-lab-rendafixa-queue
         produtorFila-out-0:
+          binder: servicebus-1
           destination: next-lab-rendafixa-queue
+      binders:
+        servicebus-1:
+          type: servicebus
+          default-candidate: true
+          environment:
+            spring:
+              cloud:
+                azure:
+                  servicebus:
+                    connection-string: Endpoint=sb://next-stream-ra.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=kfDKtdkf9BCCnWbC2aNGuFxXSOWlw+xbmnZg9QTSzUc=
       servicebus:
         bindings:
           consumidorFila-in-0:
             consumer:
               auto-complete: false
-              entity-type: queue
           produtorFila-out-0:
             producer:
               entity-type: queue
-      function:
-        definition: consumidorFila;produtorFila;
       poller:
         fixed-delay: 1000
         initial-delay: 0
