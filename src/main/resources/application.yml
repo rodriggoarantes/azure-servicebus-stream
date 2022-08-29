@@ -1,0 +1,26 @@
+server.port: ${PORT:9090}
+
+#spring:
+#  cloud:
+#    azure:
+#      servicebus:
+#        connection-string: <ServiceBusNamespaceConnectionString>
+#    stream:
+#      bindings:
+#        consume-in-0:
+#          destination: fila-exemplo-servicebus
+#        supply-out-0:
+#          destination: fila-exemplo-servicebus
+#      servicebus:
+#        bindings:
+#          consume-in-0:
+#            consumer:
+#              auto-complete: false
+#          supply-out-0:
+#            producer:
+#              entity-type: queue
+#      function:
+#        definition: consume;supply;
+#      poller:
+#        fixed-delay: 1000
+#        initial-delay: 0
