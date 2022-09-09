@@ -28,7 +28,7 @@ public class QueueController {
         log.info("Going to add message {} to Sinks.Many.", text);
 
         final var msg = MessageBuilder
-                .withPayload("Nova mensagem Produgor Manual :: " + text)
+                .withPayload("Nova mensagem Produtor Manual :: " + text)
                 .build();
         produtorFilaService.emitNext(msg, Sinks.EmitFailureHandler.FAIL_FAST);
 

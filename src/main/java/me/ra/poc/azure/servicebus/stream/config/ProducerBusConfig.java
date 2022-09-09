@@ -24,7 +24,7 @@ public class ProducerBusConfig {
     @Bean
     public Supplier<Flux<Message<String>>> produtorFila(Sinks.Many<Message<String>> produtorFilaService) {
         return () -> produtorFilaService.asFlux()
-                .doOnNext(m -> log.info("Manually sending message1 {}", m))
+                .doOnNext(m -> log.info("Mensagem enviada manualmente :: {}", m))
                 .doOnError(t -> log.error("Error encountered", t));
     }
 }

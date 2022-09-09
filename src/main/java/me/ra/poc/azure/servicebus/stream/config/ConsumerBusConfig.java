@@ -18,8 +18,12 @@ public class ConsumerBusConfig {
     @Bean
     public Consumer<Message<String>> consumidorFila() {
         return message -> {
-            log.info("New message received: {} | {}",
+            log.info("--------------------");
+            log.info("Nova mensagem recebida: {} | {}",
                     message.getPayload(), message.getHeaders());
+            log.info("--------------------");
+
+            // checkpoint manual
             final var checkpointer = (Checkpointer) message.getHeaders().get(CHECKPOINTER);
             Objects.requireNonNull(checkpointer)
                     .success()

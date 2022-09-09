@@ -3,15 +3,27 @@ server.port: ${PORT:9090}
 spring:
   cloud:
     stream:
+      defaultBinder: servicebus-1
+
       function:
-        definition: consumidorFila;produtorFila;
+        definition:
+          consumidorFila;
+          produtorFila;
+        bindings:
+          consumidorFila-in-0: rendafixa-input
+          produtorFila-out-0: rendafixa-output
+
       bindings:
-        consumidorFila-in-0:
+        rendafixa-input:
           binder: servicebus-1
           destination: next-lab-rendafixa-queue
-        produtorFila-out-0:
+          contentType: application/json
+
+        rendafixa-output:
           binder: servicebus-1
           destination: next-lab-rendafixa-queue
+          contentType: application/json
+
       binders:
         servicebus-1:
           type: servicebus
@@ -22,14 +34,17 @@ spring:
                 azure:
                   servicebus:
                     connection-string: Endpoint=sb://next-stream-ra.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=kfDKtdkf9BCCnWbC2aNGuFxXSOWlw+xbmnZg9QTSzUc=
+
       servicebus:
         bindings:
-          consumidorFila-in-0:
+          rendafixa-input:
             consumer:
               auto-complete: false
-          produtorFila-out-0:
+          rendafixa-output:
             producer:
               entity-type: queue
+            sync: true
+
       poller:
         fixed-delay: 1000
         initial-delay: 0

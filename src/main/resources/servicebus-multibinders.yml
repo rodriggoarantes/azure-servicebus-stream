@@ -1,0 +1,56 @@
+# LINK https://microsoft.github.io/spring-cloud-azure/current/reference/html/index.html#multiple-binder-support-2
+
+
+spring:
+  cloud:
+    stream:
+      function:
+        definition: consume1;supply1;consume2;supply2
+      bindings:
+        consume1-in-0:
+          destination: ${SERVICEBUS_TOPIC_NAME}
+          group: ${SUBSCRIPTION_NAME}
+        supply1-out-0:
+          destination: ${SERVICEBUS_TOPIC_NAME_SAME_AS_ABOVE}
+        consume2-in-0:
+          binder: servicebus-2
+          destination: ${SERVICEBUS_QUEUE_NAME}
+        supply2-out-0:
+          binder: servicebus-2
+          destination: ${SERVICEBUS_QUEUE_NAME_SAME_AS_ABOVE}
+      binders:
+        servicebus-1:
+          type: servicebus
+          default-candidate: true
+          environment:
+            spring:
+              cloud:
+                azure:
+                  servicebus:
+                    connection-string: ${SERVICEBUS_NAMESPACE_01_CONNECTION_STRING}
+        servicebus-2:
+          type: servicebus
+          default-candidate: false
+          environment:
+            spring:
+              cloud:
+                azure:
+                  servicebus:
+                    connection-string: ${SERVICEBUS_NAMESPACE_02_CONNECTION_STRING}
+      servicebus:
+        bindings:
+          consume1-in-0:
+            consumer:
+              auto-complete: false
+          supply1-out-0:
+            producer:
+              entity-type: topic
+          consume2-in-0:
+            consumer:
+              auto-complete: false
+          supply2-out-0:
+            producer:
+              entity-type: queue
+      poller:
+        initial-delay: 0
+        fixed-delay: 1000
