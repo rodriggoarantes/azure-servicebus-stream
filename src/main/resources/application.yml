@@ -8,10 +8,10 @@ spring:
       function:
         definition:
           consumidorFila;
-          produtorFila;
+          investimentoResgateProducer;
         bindings:
           consumidorFila-in-0: rendafixa-input
-          produtorFila-out-0: rendafixa-output
+          investimentoResgateProducer-out-0: rendafixa-output
 
       bindings:
         rendafixa-input:
@@ -39,7 +39,7 @@ spring:
         bindings:
           rendafixa-input:
             consumer:
-              auto-complete: false
+              auto-complete: true
           rendafixa-output:
             producer:
               entity-type: queue

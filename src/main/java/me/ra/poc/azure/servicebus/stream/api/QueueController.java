@@ -1,6 +1,10 @@
 package me.ra.poc.azure.servicebus.stream.api;
 
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import me.ra.poc.azure.servicebus.stream.gateway.out.event.InvestimentoResgatadoEvent;
+import me.ra.poc.azure.servicebus.stream.gateway.out.event.InvestimentoResgateProducer;
 import org.springframework.http.MediaType;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
@@ -11,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Sinks;
 
 import javax.annotation.Resource;
+import java.util.UUID;
 
 @Slf4j
 @RestController
@@ -18,19 +23,17 @@ import javax.annotation.Resource;
         path = "/fila",
         produces = MediaType.APPLICATION_JSON_VALUE
 )
+@RequiredArgsConstructor
 public class QueueController {
 
-    @Resource(name = "produtorFilaService")
-    private Sinks.Many<Message<String>> produtorFilaService;
+    private final InvestimentoResgateProducer investimentoResgateProducer;
     @GetMapping("/enviar/{text}")
-    public Message<String> enviarParaFila(@PathVariable String text) {
+    public InvestimentoResgatadoEvent enviarParaFila(@PathVariable String text) {
 
-        log.info("Going to add message {} to Sinks.Many.", text);
+        final var id = UUID.randomUUID().toString();
+        final var msg = InvestimentoResgatadoEvent.of(id, text);
 
-        final var msg = MessageBuilder
-                .withPayload("Nova mensagem Produtor Manual :: " + text)
-                .build();
-        produtorFilaService.emitNext(msg, Sinks.EmitFailureHandler.FAIL_FAST);
+        investimentoResgateProducer.send(msg);
 
         return msg;
     }
