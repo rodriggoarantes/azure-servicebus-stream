@@ -7,22 +7,32 @@ spring:
 
       function:
         definition:
-          consumidorFila;
+          investimentoResgateConsumer;
           investimentoResgateProducer;
+          movimentacaoFinanceiraProducer;
         bindings:
-          consumidorFila-in-0: rendafixa-input
+          investimentoResgateConsumer-in-0: rendafixa-input
           investimentoResgateProducer-out-0: rendafixa-output
+          movimentacaoFinanceiraConsumer-in-0: movimentacao-input
+          movimentacaoFinanceiraProducer-out-0: movimentacao-output
 
       bindings:
+        # FILA
         rendafixa-input:
-          binder: servicebus-1
+          destination: next-lab-rendafixa-queue
+          contentType: application/json
+        rendafixa-output:
           destination: next-lab-rendafixa-queue
           contentType: application/json
 
-        rendafixa-output:
-          binder: servicebus-1
-          destination: next-lab-rendafixa-queue
+        # TOPICO
+        movimentacao-output:
+          destination: next-lab-rendafixa-topic
           contentType: application/json
+        movimentacao-input:
+          destination: next-lab-rendafixa-topic
+          contentType: application/json
+          group: rendafixa-core
 
       binders:
         servicebus-1:
@@ -37,6 +47,7 @@ spring:
 
       servicebus:
         bindings:
+          # FILA
           rendafixa-input:
             consumer:
               auto-complete: true
@@ -44,6 +55,13 @@ spring:
             producer:
               entity-type: queue
             sync: true
+          # TOPICO
+          movimentacao-input:
+            consumer:
+              auto-complete: false
+          movimentacao-output:
+            producer:
+              entity-type: topic
 
       poller:
         fixed-delay: 1000
