@@ -19,7 +19,7 @@ public class InvestimentoResgateConsumer implements Consumer<InvestimentoResgata
     @Override
     public void accept(InvestimentoResgatadoEvent investimentoResgatadoEvent) {
         log.info("--------------------");
-        log.info("Nova mensagem recebida: {}", investimentoResgatadoEvent);
+        log.info("Nova mensagem recebida da fila: {}", investimentoResgatadoEvent);
 
         final var useCaseIn = MovimentacaoUseCaseIn.of(
                 investimentoResgatadoEvent.getId(),

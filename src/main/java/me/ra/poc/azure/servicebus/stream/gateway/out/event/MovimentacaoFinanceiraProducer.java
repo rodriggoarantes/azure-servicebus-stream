@@ -10,6 +10,7 @@ public class MovimentacaoFinanceiraProducer extends AbstractProducer<CashInCashO
 
     @Override
     public void send(CashInCashOutFinalizadoEvent event) {
+        log.info("step=sendToTopic event={}", event);
         dispatch(event);
     }
 }

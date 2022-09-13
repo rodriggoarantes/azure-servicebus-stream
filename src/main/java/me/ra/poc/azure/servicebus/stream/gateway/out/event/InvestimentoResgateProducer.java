@@ -10,6 +10,7 @@ public class InvestimentoResgateProducer extends AbstractProducer<InvestimentoRe
 
     @Override
     public void send(InvestimentoResgatadoEvent event) {
+        log.info("step=sendToQueue event={}", event);
         dispatch(event);
     }
 }
