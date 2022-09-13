@@ -59,7 +59,7 @@ spring:
           # TOPICO
           movimentacao-input:
             consumer:
-              auto-complete: false
+              auto-complete: true
           movimentacao-output:
             producer:
               entity-type: topic
