@@ -9,6 +9,7 @@ spring:
         definition:
           investimentoResgateConsumer;
           investimentoResgateProducer;
+          movimentacaoFinanceiraConsumer;
           movimentacaoFinanceiraProducer;
         bindings:
           investimentoResgateConsumer-in-0: rendafixa-input
@@ -32,7 +33,7 @@ spring:
         movimentacao-input:
           destination: next-lab-rendafixa-topic
           contentType: application/json
-          group: rendafixa-core
+          group: rendafixa-resgate-core
 
       binders:
         servicebus-1:
